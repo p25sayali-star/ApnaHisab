@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="hi" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Hisab (अपना हिसाब) | Wage Rights & Legal Evidence Tool</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Noto Sans for clean multilingual typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            900: '#7c2d12',
+                        },
+                        mam: {
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans', sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; color: black; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body class="h-full text-slate-800 flex flex-col justify-between">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Branding -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-brand-600 rounded-xl flex items-center justify-center font-bold text-xl sm:text-2xl shadow-md text-white">
+                        अH
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-lg sm:text-2xl tracking-tight text-white flex items-center gap-2">
+                            <span>Apna Hisab</span>
+                            <span class="text-xs bg-brand-500/30 text-brand-300 font-semibold px-2 py-0.5 rounded-full border border-brand-500/50">MAM Gujarat</span>
+                        </h1>
+                        <p class="text-xs text-slate-400 hidden sm:block" id="sub-title">मज़दूर अधिकार मंच - न्यूनतम मज़दूरी एवं प्रमाण उपकरण</p>
+                    </div>
+                </div>
+
+                <!-- Right Controls: Language & Tab Switchers -->
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <!-- Language Toggle Button -->
+                    <button id="lang-toggle-btn" onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+                        <i data-lucide="globe" class="w-4 h-4 text-brand-500"></i>
+                        <span id="lang-btn-text">English</span>
+                    </button>
+
+                    <!-- Navigation Tabs -->
+                    <nav class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 text-xs sm:text-sm font-semibold">
+                        <button id="tab-btn-calculator" onclick="switchTab('calculator')" class="px-3 py-1.5 rounded-lg bg-brand-600 text-white shadow">
+                            <span class="hidden sm:inline" data-i18n="nav-log">Wage Logger</span>
+                            <span class="sm:hidden" data-i18n="nav-log-short">Log</span>
+                        </button>
+                        <button id="tab-btn-dashboard" onclick="switchTab('dashboard')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">
+                            <span class="hidden sm:inline" data-i18n="nav-dashboard">Union Dashboard</span>
+                            <span class="sm:hidden" data-i18n="nav-dashboard-short">Dashboard</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- Banner Announcement (Legal Rates Bar) -->
+        <div class="no-print mb-6 bg-gradient-to-r from-amber-500/10 via-brand-500/10 to-amber-500/10 border-l-4 border-brand-600 p-4 rounded-r-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div class="flex items-center gap-3">
+                <i data-lucide="scale" class="w-6 h-6 text-brand-600 flex-shrink-0"></i>
+                <div class="text-xs sm:text-sm">
+                    <span class="font-bold text-slate-900" data-i18n="benchmark-title">Current Statutory Minimum Wages (Gujarat 2026):</span>
+                    <span class="block sm:inline text-slate-700 mt-0.5 sm:mt-0 sm:ml-2">
+                        🏗️ <strong>Construction Zone I:</strong> ₹512.50/day | 🌾 <strong>Sugarcane Harvesting:</strong> ₹476/ton
+                    </span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" onclick="scrollToList()" class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">
+                <span data-i18n="view-records">View All Records</span>
+                <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+
+        <!-- ================= CALCULATOR & LOGGER TAB ================= -->
+        <div id="tab-calculator" class="space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Left Column: Wage Input Form (7 Cols) -->
+                <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 no-print">
+                    
+                    <div class="border-b border-slate-100 pb-4 mb-6 flex justify-between items-center">
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="pen-tool" class="w-5 h-5 text-brand-600"></i>
+                                <span data-i18n="form-title">Enter Work & Wage Details</span>
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-1" data-i18n="form-subtitle">Record daily or piece-rate work to calculate statutory wage deficit</p>
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-amber-200" data-i18n="live-calc-badge">Auto Calculating</span>
+                    </div>
+
+                    <form id="wage-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
+                        
+                        <!-- 1. Sector Selector -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2" data-i18n="lbl-sector">
+                                Select Employment Category *
+                            </label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label id="sector-btn-construction" class="flex flex-col items-center justify-center p-3.5 border-2 border-brand-600 bg-brand-50/50 rounded-xl cursor-pointer transition text-center hover:bg-brand-50">
+                                    <input type="radio" name="sector" value="construction" checked onchange="updateSectorMode()" class="sr-only">
+                                    <span class="text-2xl mb-1">🏗️</span>
+                                    <span class="text-xs sm:text-sm font-bold text-slate-900" data-i18n="sec-construction">Construction Naka</span>
+                                    <span class="text-[10px] text-slate-500 mt-0.5" data-i18n="sec-const-sub">Daily Rate (₹512.50)</span>
+                                </label>
+                                <label id="sector-btn-sugarcane" class="flex flex-col items-center justify-center p-3.5 border-2 border-slate-200 bg-white rounded-xl cursor-pointer transition text-center hover:bg-slate-50">
+                                    <input type="radio" name="sector" value="sugarcane" onchange="updateSectorMode()" class="sr-only">
+                                    <span class="text-2xl mb-1">🌾</span>
+                                    <span class="text-xs sm:text-sm font-bold text-slate-900" data-i18n="sec-sugarcane">Sugarcane Harvester</span>
+                                    <span class="text-[10px] text-slate-500 mt-0.5" data-i18n="sec-sugar-sub">Piece Rate (₹476/ton)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 2. Worker Identity Details -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl-worker-name">Worker Name *</label>
+                                <input type="text" id="workerName" required placeholder="e.g. Ramesh Bhai Parmar" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl-union-id">Union / Naka ID (Optional)</label>
+                                <input type="text" id="unionId" placeholder="e.g. MAM-AHM-892" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- 3. Employer / Naka Details -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" id="lbl-location">Naka / Work Location *</label>
+                                <input type="text" id="location" required placeholder="e.g. Kalupur Naka / Gandevi Mill" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl-contractor">Contractor / Employer Name</label>
+                                <input type="text" id="contractor" placeholder="e.g. Mukadam / Contractor Name" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- 4. Work Duration & Days -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl-month">Period / Month *</label>
+                                    <input type="month" id="workPeriod" required class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1" id="lbl-quantity">Days Worked (out of 30) *</label>
+                                    <input type="number" id="actualUnits" required min="1" max="31" step="0.5" value="15" oninput="calculateLiveSummary()" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 bg-white">
+                                </div>
+                            </div>
+
+                            <!-- Additional Dynamic Input for Sugarcane Tonnage -->
+                            <div id="tonnage-field-container" class="hidden">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lbl-tonnage">Total Sugarcane Harvested (Tons) *</label>
+                                <input type="number" id="tonnageCut" min="0.1" step="0.1" value="10" oninput="calculateLiveSummary()" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 bg-white">
+                            </div>
+                        </div>
+
+                        <!-- 5. Payment Details -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" id="lbl-rate-paid">Actual Rate Paid (₹ per day) *</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-sm">₹</span>
+                                    <input type="number" id="ratePaid" required min="0" step="1" value="400" oninput="calculateLiveSummary()" class="w-full pl-7 pr-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1" id="lbl-statutory-rate">Statutory Minimum Rate (₹) *</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-sm">₹</span>
+                                    <input type="number" id="statutoryRate" required min="0" step="0.5" value="512.50" oninput="calculateLiveSummary()" class="w-full pl-7 pr-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-500 bg-slate-100 font-medium text-slate-700">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="pt-2 flex gap-3">
+                            <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition">
+                                <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                                <span data-i18n="btn-save">Save & Generate Claim Slip</span>
+                            </button>
+                            <button type="button" onclick="resetForm()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold text-sm transition">
+                                <span data-i18n="btn-reset">Reset</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Live Deficit Breakdown & Legal Proof Preview (5 Cols) -->
+                <div class="lg:col-span-5 flex flex-col space-y-6">
+                    
+                    <!-- Live Audit Breakdown Card -->
+                    <div class="bg-slate-900 text-white rounded-2xl shadow-xl p-6 relative overflow-hidden no-print">
+                        <div class="absolute -right-8 -top-8 w-32 h-32 bg-brand-500/10 rounded-full blur-2xl"></div>
+                        
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <h3 class="font-bold text-slate-200 text-sm uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="calculator" class="w-4 h-4 text-brand-500"></i>
+                                <span data-i18n="calc-summary-title">Live Wage Deficit Audit</span>
+                            </h3>
+                            <span class="text-[10px] text-slate-400" data-i18n="calc-live">Real-time</span>
+                        </div>
+
+                        <!-- Primary Result Box -->
+                        <div class="mb-5 bg-slate-800/80 p-4 rounded-xl border border-slate-700/80">
+                            <div class="text-xs text-slate-400 font-medium" data-i18n="lbl-total-underpayment">Total Statutory Underpayment Loss:</div>
+                            <div class="text-3xl sm:text-4xl font-extrabold text-amber-400 mt-1 flex items-baseline gap-1">
+                                <span class="text-2xl">₹</span>
+                                <span id="live-total-underpayment">1,687.50</span>
+                            </div>
+                            <p class="text-[11px] text-amber-300/80 mt-1" data-i18n="underpayment-desc">Claimable amount under Minimum Wages Act / Code on Wages</p>
+                        </div>
+
+                        <!-- Policy Distinction Breakdown -->
+                        <div class="space-y-3 text-xs sm:text-sm">
+                            <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                                <span class="text-slate-400 flex items-center gap-1.5">
+                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-red-400"></i>
+                                    <span data-i18n="lbl-rate-violation">Illegal Rate Deficit (Rate Violation):</span>
+                                </span>
+                                <span class="font-bold text-red-400" id="live-rate-loss">₹1,687.50</span>
+                            </div>
+
+                            <div class="flex justify-between items-center py-2 border-b border-slate-800">
+                                <span class="text-slate-400 flex items-center gap-1.5">
+                                    <i data-lucide="calendar-x" class="w-3.5 h-3.5 text-amber-400"></i>
+                                    <span data-i18n="lbl-unemployment-loss">Unemployment / Missing Days Loss:</span>
+                                </span>
+                                <span class="font-bold text-amber-300" id="live-unemployment-loss">₹7,687.50</span>
+                            </div>
+
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-slate-400" data-i18n="lbl-actual-received">Actual Total Cash Received:</span>
+                                <span class="font-bold text-slate-200" id="live-received-amount">₹6,000.00</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed" data-i18n="policy-note">
+                            💡 <strong>Policy Context:</strong> Underpayment is an illegal breach of statutory wage rules. Work day shortage represents employment insecurity.
+                        </div>
+                    </div>
+
+                    <!-- MAM Legal Advocacy Slip Box (Preview) -->
+                    <div id="claim-slip-card" class="bg-white rounded-2xl border-2 border-slate-300 shadow-sm p-6 relative">
+                        <div class="flex justify-between items-start border-b-2 border-slate-900 pb-3 mb-4">
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-base flex items-center gap-1.5">
+                                    <span class="text-red-600 font-extrabold">MAM</span>
+                                    <span data-i18n="slip-header">Legal Wage Claim Slip</span>
+                                </h4>
+                                <p class="text-[11px] text-slate-500 font-medium" data-i18n="slip-org">Majdoor Adhikar Manch, Gujarat Advocacy Evidence</p>
+                            </div>
+                            <button onclick="window.print()" class="no-print bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1 shadow">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="btn-print">Print Slip</span>
+                            </button>
+                        </div>
+
+                        <div class="space-y-2 text-xs text-slate-700" id="slip-content">
+                            <div class="flex justify-between"><span class="font-semibold" data-i18n="slip-worker">Worker Name:</span> <span id="slip-name" class="font-bold">Ramesh Bhai Parmar</span></div>
+                            <div class="flex justify-between"><span class="font-semibold" data-i18n="slip-id">Union/ID:</span> <span id="slip-id-val">MAM-AHM-892</span></div>
+                            <div class="flex justify-between"><span class="font-semibold" data-i18n="slip-sector">Sector:</span> <span id="slip-sector-val" class="capitalize">Construction Naka</span></div>
+                            <div class="flex justify-between"><span class="font-semibold" data-i18n="slip-location">Location:</span> <span id="slip-loc">Kalupur Naka</span></div>
+                            <div class="flex justify-between"><span class="font-semibold" data-i18n="slip-period">Period:</span> <span id="slip-date">2026-04</span></div>
+                            
+                            <div class="my-3 border-t border-dashed border-slate-300 pt-2 space-y-1">
+                                <div class="flex justify-between"><span data-i18n="slip-notified">Statutory Rate:</span> <span id="slip-stat-rate" class="font-semibold">₹512.50 / day</span></div>
+                                <div class="flex justify-between"><span data-i18n="slip-paid-rate">Paid Rate:</span> <span id="slip-actual-rate" class="font-semibold text-red-600">₹400.00 / day</span></div>
+                                <div class="flex justify-between"><span data-i18n="slip-units">Work Executed:</span> <span id="slip-units-val">15 days</span></div>
+                            </div>
+
+                            <div class="bg-red-50 p-2.5 rounded-lg border border-red-200 mt-2">
+                                <div class="flex justify-between text-sm font-bold text-red-900">
+                                    <span data-i18n="slip-total-claim">Wage Claim Amount:</span>
+                                    <span id="slip-underpayment">₹1,687.50</span>
+                                </div>
+                                <p class="text-[10px] text-red-700 mt-0.5" data-i18n="slip-law-ref">Subject to recovery under Code on Wages Sec 18 / MW Act 1948.</p>
+                            </div>
+                        </div>
+
+                        <!-- Footer Verification for Print -->
+                        <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-end text-[10px] text-slate-500">
+                            <div>
+                                <p data-i18n="slip-date-generated">Generated: <span id="slip-gen-date">10 Nov 2026</span></p>
+                                <p class="font-semibold text-slate-700">Verified by Majdoor Adhikar Manch</p>
+                            </div>
+                            <div class="text-right border-t border-slate-400 w-28 pt-1 text-center font-semibold text-slate-700" data-i18n="slip-sign">
+                                Worker Signature
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom Section: Work Log Table (Saved Records) -->
+            <div id="records-section" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 no-print">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4 mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="database" class="w-5 h-5 text-brand-600"></i>
+                            <span data-i18n="table-title">Recorded Wage Audit Logs</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-0.5" data-i18n="table-subtitle">Stored locally on device. Prepared for collective union filings.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="exportToCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 transition">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="btn-export">Export CSV</span>
+                        </button>
+                        <button onclick="clearAllLogs()" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2.5 py-2 rounded-lg transition" data-i18n="btn-clear">
+                            Clear Logs
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Responsive Table Wrapper -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <tr>
+                                <th class="p-3" data-i18n="th-worker">Worker</th>
+                                <th class="p-3" data-i18n="th-sector">Sector & Loc</th>
+                                <th class="p-3" data-i18n="th-period">Period</th>
+                                <th class="p-3" data-i18n="th-work">Work Done</th>
+                                <th class="p-3" data-i18n="th-paid">Rate Paid</th>
+                                <th class="p-3" data-i18n="th-statutory">Statutory Rate</th>
+                                <th class="p-3 text-right" data-i18n="th-claim">Illegal Deficit</th>
+                                <th class="p-3 text-center" data-i18n="th-action">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic Content Rendered Here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNION ADVOCACY DASHBOARD TAB ================= -->
+        <div id="tab-dashboard" class="hidden space-y-8 no-print">
+            
+            <!-- Dashboard Top Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center text-slate-500 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" data-i18n="dash-total-workers">Workers Logged</span>
+                        <i data-lucide="users" class="w-5 h-5 text-brand-600"></i>
+                    </div>
+                    <div class="text-2xl font-extrabold text-slate-900" id="dash-val-workers">0</div>
+                    <p class="text-[11px] text-slate-400 mt-1" data-i18n="dash-workers-sub">Unique informal labor entries</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center text-slate-500 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" data-i18n="dash-total-underpayment">Total Wage Deficit</span>
+                        <i data-lucide="trending-down" class="w-5 h-5 text-red-600"></i>
+                    </div>
+                    <div class="text-2xl font-extrabold text-red-600" id="dash-val-deficit">₹0</div>
+                    <p class="text-[11px] text-red-500/80 mt-1" data-i18n="dash-deficit-sub">Accumulated illegal underpayment</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center text-slate-500 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" data-i18n="dash-sugarcane-gap">Sugarcane Violation Rate</span>
+                        <i data-lucide="wheat" class="w-5 h-5 text-amber-600"></i>
+                    </div>
+                    <div class="text-2xl font-extrabold text-slate-900" id="dash-val-sugar-gap">₹101 / ton</div>
+                    <p class="text-[11px] text-slate-400 mt-1" data-i18n="dash-sugar-sub">Avg gap vs ₹476/ton statutory notification</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center text-slate-500 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" data-i18n="dash-const-gap">Construction Wage Gap</span>
+                        <i data-lucide="building-2" class="w-5 h-5 text-blue-600"></i>
+                    </div>
+                    <div class="text-2xl font-extrabold text-slate-900" id="dash-val-const-gap">₹112.50 / day</div>
+                    <p class="text-[11px] text-slate-400 mt-1" data-i18n="dash-const-sub">Avg gap vs ₹512.50 Zone I daily rate</p>
+                </div>
+            </div>
+
+            <!-- Deep Dive Policy & Union Strategy Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Sector Deficit Comparison Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-brand-600"></i>
+                        <span data-i18n="dash-chart-title">Sector-wise Systematic Wage Loss Comparison</span>
+                    </h3>
+                    <p class="text-xs text-slate-500" data-i18n="dash-chart-sub">Comparing actual reported field payments against Gujarat state notifications.</p>
+                    
+                    <div class="space-y-4 pt-2">
+                        <!-- Construction Progress -->
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span>Construction Daily Wages (Zone I)</span>
+                                <span class="text-slate-600">₹400 Paid vs ₹512.50 Statutory</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden">
+                                <div class="bg-blue-600 h-3.5 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
+                                <span>Underpayment Loss: ~22% per workday</span>
+                                <span class="font-bold text-red-600">-₹112.50/day</span>
+                            </div>
+                        </div>
+
+                        <!-- Sugarcane Progress -->
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span>Sugarcane Harvesting (Piece Rate)</span>
+                                <span class="text-slate-600">₹375 Paid vs ₹476 Notified</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden">
+                                <div class="bg-amber-500 h-3.5 rounded-full" style="width: 78.7%"></div>
+                            </div>
+                            <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
+                                <span>Institutional Loss: ~21.2% per ton</span>
+                                <span class="font-bold text-red-600">-₹101.00/ton</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAM Policy Action & Organizing Blueprint -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md space-y-4">
+                    <h3 class="font-bold text-white text-base flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-5 h-5 text-brand-500"></i>
+                        <span data-i18n="dash-action-title">MAM Advocacy & Legal Strategy</span>
+                    </h3>
+                    
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500 flex-shrink-0 mt-0.5"></i>
+                            <span data-i18n="dash-strat-1"><strong>Collective Class Recovery:</strong> Aggregate logged sugarcane tonnage deficits across Gandevi/South Gujarat mills for filing under Sec 20 of Minimum Wages Act.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500 flex-shrink-0 mt-0.5"></i>
+                            <span data-i18n="dash-strat-2"><strong>Naka Verification Audits:</strong> Use exported worker logs during morning naka organizing to challenge contractor daily rate deductions in Ahmedabad.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-500 flex-shrink-0 mt-0.5"></i>
+                            <span data-i18n="dash-strat-3"><strong>Policy Advocacy:</strong> Present generated evidence logs to Gujarat Labour Commissioner to highlight institutional piece-rate non-compliance.</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-2">
+                        <button onclick="switchTab('calculator')" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span data-i18n="dash-btn-add">Add New Field Log</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-xs border-t border-slate-800 no-print mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div>
+                <p class="font-semibold text-slate-300">Apna Hisab (अपना हिसाब) — Public Policy Advocacy Tool</p>
+                <p class="text-[11px] text-slate-500">Developed in collaboration with Majdoor Adhikar Manch (MAM), Gujarat</p>
+            </div>
+            <div class="text-right text-[11px] text-slate-500">
+                <p>Gujarat Minimum Wage Notifications 2023–2026</p>
+                <p>Code on Wages Compliance Framework</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App JavaScript Logic -->
+    <script>
+        // ================= APP STATE & TRANSLATIONS =================
+        let currentLang = 'hi'; // Default Hindi for worker accessibility
+        let logs = [];
+
+        const i18n = {
+            hi: {
+                "sub-title": "मज़दूर अधिकार मंच - न्यूनतम मज़दूरी एवं प्रमाण उपकरण",
+                "nav-log": "मज़दूरी दर्ज करें",
+                "nav-log-short": "दर्ज करें",
+                "nav-dashboard": "यूनियन डैशबोर्ड",
+                "nav-dashboard-short": "डैशबोर्ड",
+                "benchmark-title": "गुजरात सरकारी न्यूनतम मज़दूरी दरें (2026):",
+                "view-records": "सभी रिकॉर्ड्स देखें",
+                "form-title": "कार्य एवं मज़दूरी का विवरण भरें",
+                "form-subtitle": "वैधानिक मज़दूरी अंतर और बकाया राशि की गणना के लिए विवरण दर्ज करें",
+                "live-calc-badge": "लाइव गणना जारी",
+                "lbl-sector": "रोज़गार श्रेणी चुनें *",
+                "sec-construction": "निर्माण नाका मज़दूर",
+                "sec-const-sub": "दैनिक दर (₹512.50/दिन)",
+                "sec-sugarcane": "गन्ना कटाई मज़दूर",
+                "sec-sugar-sub": "पीस रेट (₹476/टन)",
+                "lbl-worker-name": "मज़दूर का नाम *",
+                "lbl-union-id": "यूनियन / नाका आईडी (वैकल्पिक)",
+                "lbl-contractor": "ठेकेदार / मुकादम का नाम",
+                "lbl-month": "कार्य अवधि / महीना *",
+                "lbl-tonnage": "कुल काटा गया गन्ना (टन में) *",
+                "btn-save": "सेव करें और क्लेम स्लिप बनाएं",
+                "btn-reset": "रीसेट करें",
+                "calc-summary-title": "लाइव मज़दूरी अंतर ऑडिट",
+                "calc-live": "रीयल-टाइम",
+                "lbl-total-underpayment": "कुल गैर-कानूनी कम भुगतान नुकसान:",
+                "underpayment-desc": "न्यूनतम मजदूरी अधिनियम / वेतन संहिता के तहत वसूलने योग्य",
+                "lbl-rate-violation": "दर उल्लंघन नुकसान (कम दर):",
+                "lbl-unemployment-loss": "बेरोजगारी / काम न मिलने का नुकसान:",
+                "lbl-actual-received": "वास्तविक प्राप्त कुल नकद:",
+                "policy-note": "💡 <strong>नीति संदर्भ:</strong> तय दर से कम भुगतान गैर-कानूनी है। काम के दिन कम मिलना रोजगार असुरक्षा है।",
+                "slip-header": "कानूनी मज़दूरी क्लेम स्लिप",
+                "slip-org": "मज़दूर अधिकार मंच - गुजरात कानूनी साक्ष्य",
+                "btn-print": "स्लिप प्रिंट करें",
+                "slip-worker": "मज़दूर का नाम:",
+                "slip-id": "यूनियन/आईडी:",
+                "slip-sector": "क्षेत्र:",
+                "slip-location": "स्थान/नाका:",
+                "slip-period": "अवधि:",
+                "slip-notified": "सरकारी तय दर:",
+                "slip-paid-rate": "दी गई दर:",
+                "slip-units": "किया गया कार्य:",
+                "slip-total-claim": "कुल दावा राशि:",
+                "slip-law-ref": "वेतन संहिता धारा 18 / न्यूनतम मजदूरी अधिनियम 1948 के तहत देय।",
+                "slip-date-generated": "जनरेट तिथि:",
+                "slip-sign": "मज़दूर के हस्ताक्षर",
+                "table-title": "दर्ज की गई मज़दूरी ऑडिट रिपोर्ट",
+                "table-subtitle": "डिवाइस में सुरक्षित। यूनियन द्वारा केस दर्ज करने हेतु तैयार।",
+                "btn-export": "CSV डाउनलोड करें",
+                "btn-clear": "सभी हटाएं",
+                "th-worker": "मज़दूर",
+                "th-sector": "क्षेत्र व स्थान",
+                "th-period": "अवधि",
+                "th-work": "कार्य",
+                "th-paid": "दी गई दर",
+                "th-statutory": "सरकारी दर",
+                "th-claim": "गैर-कानूनी घाटा",
+                "th-action": "कार्रवाई",
+                "dash-total-workers": "कुल दर्ज मज़दूर",
+                "dash-workers-sub": "असंगठित श्रम प्रविष्टियां",
+                "dash-total-underpayment": "कुल बकाया मज़दूरी घाटा",
+                "dash-deficit-sub": "एकत्रित गैर-कानूनी कम भुगतान",
+                "dash-sugarcane-gap": "गन्ना कटाई अंतर दर",
+                "dash-sugar-sub": "₹476/टन सरकारी दर के मुकाबले औसतन घाटा",
+                "dash-const-gap": "निर्माण मज़दूरी अंतर",
+                "dash-const-sub": "₹512.50 Zone I दर के मुकाबले औसतन घाटा",
+                "dash-chart-title": "क्षेत्रवार व्यवस्थित मज़दूरी नुकसान तुलना",
+                "dash-chart-sub": "गुजरात सरकार की अधिसूचनाओं के साथ वास्तविक भुगतान की तुलना।",
+                "dash-action-title": "MAM नीति और कानूनी रणनीति",
+                "dash-strat-1": "<strong>सामूहिक रिकवरी:</strong> गेंदेवी और दक्षिण गुजरात चीनी मिलों के खिलाफ न्यूनतम मजदूरी अधिनियम की धारा 20 के तहत केस के लिए डेटा।",
+                "dash-strat-2": "<strong>नाका सत्यापन ऑडिट:</strong> अहमदाबाद में ठेकेदारों की कटौती को चुनौती देने के लिए सुबह के नाका अभियानों में इन स्लिप्स का उपयोग।",
+                "dash-strat-3": "<strong>नीतिगत पैरवी:</strong> टुकड़ा-दर (Piece-rate) के उल्लंघन को उजागर करने के लिए श्रम आयुक्त को सबूत सौंपना।",
+                "dash-btn-add": "नई फील्ड एंट्री जोड़ें"
+            },
+            en: {
+                "sub-title": "Majdoor Adhikar Manch - Minimum Wage & Evidence Tool",
+                "nav-log": "Wage Logger",
+                "nav-log-short": "Log",
+                "nav-dashboard": "Union Dashboard",
+                "nav-dashboard-short": "Dashboard",
+                "benchmark-title": "Current Statutory Minimum Wages (Gujarat 2026):",
+                "view-records": "View All Records",
+                "form-title": "Enter Work & Wage Details",
+                "form-subtitle": "Record daily or piece-rate work to calculate statutory wage deficit",
+                "live-calc-badge": "Auto Calculating",
+                "lbl-sector": "Select Employment Category *",
+                "sec-construction": "Construction Naka",
+                "sec-const-sub": "Daily Rate (₹512.50/day)",
+                "sec-sugarcane": "Sugarcane Harvester",
+                "sec-sugar-sub": "Piece Rate (₹476/ton)",
+                "lbl-worker-name": "Worker Name *",
+                "lbl-union-id": "Union / Naka ID (Optional)",
+                "lbl-contractor": "Contractor / Employer Name",
+                "lbl-month": "Period / Month *",
+                "lbl-tonnage": "Total Sugarcane Harvested (Tons) *",
+                "btn-save": "Save & Generate Claim Slip",
+                "btn-reset": "Reset Form",
+                "calc-summary-title": "Live Wage Deficit Audit",
+                "calc-live": "Real-time",
+                "lbl-total-underpayment": "Total Statutory Underpayment Loss:",
+                "underpayment-desc": "Claimable amount under Minimum Wages Act / Code on Wages",
+                "lbl-rate-violation": "Illegal Rate Deficit (Rate Violation):",
+                "lbl-unemployment-loss": "Unemployment / Missing Days Loss:",
+                "lbl-actual-received": "Actual Total Cash Received:",
+                "policy-note": "💡 <strong>Policy Context:</strong> Underpayment is an illegal breach of statutory wage rules. Work day shortage represents employment insecurity.",
+                "slip-header": "Legal Wage Claim Slip",
+                "slip-org": "Majdoor Adhikar Manch, Gujarat Advocacy Evidence",
+                "btn-print": "Print Slip",
+                "slip-worker": "Worker Name:",
+                "slip-id": "Union/ID:",
+                "slip-sector": "Sector:",
+                "slip-location": "Location/Naka:",
+                "slip-period": "Period:",
+                "slip-notified": "Statutory Rate:",
+                "slip-paid-rate": "Paid Rate:",
+                "slip-units": "Work Executed:",
+                "slip-total-claim": "Wage Claim Amount:",
+                "slip-law-ref": "Subject to recovery under Code on Wages Sec 18 / MW Act 1948.",
+                "slip-date-generated": "Generated:",
+                "slip-sign": "Worker Signature",
+                "table-title": "Recorded Wage Audit Logs",
+                "table-subtitle": "Stored locally on device. Prepared for collective union filings.",
+                "btn-export": "Export CSV",
+                "btn-clear": "Clear All",
+                "th-worker": "Worker",
+                "th-sector": "Sector & Loc",
+                "th-period": "Period",
+                "th-work": "Work Done",
+                "th-paid": "Rate Paid",
+                "th-statutory": "Statutory Rate",
+                "th-claim": "Illegal Deficit",
+                "th-action": "Action",
+                "dash-total-workers": "Workers Logged",
+                "dash-workers-sub": "Informal labor entries",
+                "dash-total-underpayment": "Total Wage Deficit",
+                "dash-deficit-sub": "Accumulated illegal underpayment",
+                "dash-sugarcane-gap": "Sugarcane Gap Rate",
+                "dash-sugar-sub": "Avg gap vs ₹476/ton statutory rate",
+                "dash-const-gap": "Construction Wage Gap",
+                "dash-const-sub": "Avg gap vs ₹512.50 Zone I daily rate",
+                "dash-chart-title": "Sector-wise Systematic Wage Loss Comparison",
+                "dash-chart-sub": "Comparing actual reported field payments against Gujarat notifications.",
+                "dash-action-title": "MAM Advocacy & Legal Strategy",
+                "dash-strat-1": "<strong>Collective Class Recovery:</strong> Aggregate logged sugarcane tonnage deficits across Gandevi/South Gujarat mills under Sec 20 MW Act.",
+                "dash-strat-2": "<strong>Naka Verification Audits:</strong> Use exported worker logs during morning naka organizing to challenge contractor daily rate deductions in Ahmedabad.",
+                "dash-strat-3": "<strong>Policy Advocacy:</strong> Present generated evidence logs to Gujarat Labour Commissioner to highlight institutional piece-rate non-compliance.",
+                "dash-btn-add": "Add New Field Log"
+            }
+        };
+
+        // Initialize App
+        window.onload = function () {
+            // Load sample records if local storage is empty
+            const savedLogs = localStorage.getItem('apna_hisab_logs');
+            if (savedLogs) {
+                logs = JSON.parse(savedLogs);
+            } else {
+                logs = [
+                    {
+                        id: 101,
+                        workerName: "Ramesh Bhai Parmar",
+                        unionId: "MAM-AHM-892",
+                        sector: "construction",
+                        location: "Kalupur Naka, Ahmedabad",
+                        contractor: "Suresh Contractor",
+                        workPeriod: "2026-04",
+                        actualUnits: 15,
+                        tonnageCut: 0,
+                        ratePaid: 400,
+                        statutoryRate: 512.50,
+                        underpayment: 1687.50,
+                        dateAdded: "2026-04-10"
+                    },
+                    {
+                        id: 102,
+                        workerName: "Savitaben Rathwa",
+                        unionId: "MAM-SGV-304",
+                        sector: "sugarcane",
+                        location: "Gandevi Mill Area",
+                        contractor: "Raman Mukadam",
+                        workPeriod: "2026-03",
+                        actualUnits: 20,
+                        tonnageCut: 25.5,
+                        ratePaid: 375,
+                        statutoryRate: 476,
+                        underpayment: 2575.50,
+                        dateAdded: "2026-04-08"
+                    }
+                ];
+                saveLogsToStorage();
+            }
+
+            // Set current month default
+            const today = new Date();
+            const yearMonth = today.toISOString().slice(0, 7);
+            document.getElementById('workPeriod').value = yearMonth;
+            
+            // Set slip date
+            document.getElementById('slip-gen-date').innerText = today.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+            lucide.createIcons();
+            updateLanguageUI();
+            updateSectorMode();
+            calculateLiveSummary();
+            renderLogsTable();
+            updateDashboardMetrics();
+        };
+
+        // ================= LANGUAGE TOGGLE =================
+        function toggleLanguage() {
+            currentLang = currentLang === 'hi' ? 'en' : 'hi';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'hi' ? 'English' : 'हिंदी';
+            document.documentElement.lang = currentLang;
+            updateLanguageUI();
+        }
+
+        function updateLanguageUI() {
+            const langData = i18n[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (langData[key]) {
+                    el.innerHTML = langData[key];
+                }
+            });
+            updateSectorModeLabels();
+            calculateLiveSummary();
+            renderLogsTable();
+        }
+
+        // ================= SECTOR MODE SWITCHING =================
+        function updateSectorMode() {
+            const sector = document.querySelector('input[name="sector"]:checked').value;
+            const isConstruction = sector === 'construction';
+
+            const constBtn = document.getElementById('sector-btn-construction');
+            const sugarBtn = document.getElementById('sector-btn-sugarcane');
+            const tonnageContainer = document.getElementById('tonnage-field-container');
+
+            if (isConstruction) {
+                constBtn.className = "flex flex-col items-center justify-center p-3.5 border-2 border-brand-600 bg-brand-50/50 rounded-xl cursor-pointer transition text-center hover:bg-brand-50";
+                sugarBtn.className = "flex flex-col items-center justify-center p-3.5 border-2 border-slate-200 bg-white rounded-xl cursor-pointer transition text-center hover:bg-slate-50";
+                
+                document.getElementById('statutoryRate').value = "512.50";
+                document.getElementById('ratePaid').value = "400";
+                tonnageContainer.classList.add('hidden');
+            } else {
+                sugarBtn.className = "flex flex-col items-center justify-center p-3.5 border-2 border-brand-600 bg-brand-50/50 rounded-xl cursor-pointer transition text-center hover:bg-brand-50";
+                constBtn.className = "flex flex-col items-center justify-center p-3.5 border-2 border-slate-200 bg-white rounded-xl cursor-pointer transition text-center hover:bg-slate-50";
+                
+                document.getElementById('statutoryRate').value = "476.00";
+                document.getElementById('ratePaid').value = "375";
+                tonnageContainer.classList.remove('hidden');
+            }
+
+            updateSectorModeLabels();
+            calculateLiveSummary();
+        }
+
+        function updateSectorModeLabels() {
+            const sector = document.querySelector('input[name="sector"]:checked').value;
+            const isConstruction = sector === 'construction';
+            const isHindi = currentLang === 'hi';
+
+            document.getElementById('lbl-location').innerText = isConstruction 
+                ? (isHindi ? "नाका / कार्य स्थान *" : "Naka / Work Location *")
+                : (isHindi ? "चीनी मिल / क्षेत्र स्थान *" : "Sugar Mill / Field Area *");
+
+            document.getElementById('lbl-quantity').innerText = isConstruction 
+                ? (isHindi ? "काम किए गए दिन (30 में से) *" : "Days Worked (out of 30) *")
+                : (isHindi ? "काम के कुल दिन *" : "Total Days Worked *");
+
+            document.getElementById('lbl-rate-paid').innerText = isConstruction
+                ? (isHindi ? "दी गई दैनिक दर (₹ प्रति दिन) *" : "Actual Rate Paid (₹ per day) *")
+                : (isHindi ? "दी गई दर (₹ प्रति टन) *" : "Actual Rate Paid (₹ per ton) *");
+
+            document.getElementById('lbl-statutory-rate').innerText = isConstruction
+                ? (isHindi ? "सरकारी न्यूनतम दर (₹/दिन) *" : "Statutory Minimum Rate (₹/day) *")
+                : (isHindi ? "सरकारी अधिसूचित दर (₹/टन) *" : "Statutory Notified Rate (₹/ton) *");
+        }
+
+        // ================= LIVE CALCULATOR & SLIP UPDATER =================
+        function calculateLiveSummary() {
+            const sector = document.querySelector('input[name="sector"]:checked').value;
+            const daysWorked = parseFloat(document.getElementById('actualUnits').value) || 0;
+            const tonnage = parseFloat(document.getElementById('tonnageCut').value) || 0;
+            const ratePaid = parseFloat(document.getElementById('ratePaid').value) || 0;
+            const statutoryRate = parseFloat(document.getElementById('statutoryRate').value) || 0;
+
+            let unitsForCalc = sector === 'construction' ? daysWorked : tonnage;
+            let rateDiff = statutoryRate - ratePaid;
+            let totalIllegalUnderpayment = rateDiff > 0 ? (unitsForCalc * rateDiff) : 0;
+            
+            let totalReceived = unitsForCalc * ratePaid;
+            
+            // Unemployment loss calculation (assumes 26 standard working days month for daily construction)
+            let unemploymentDays = sector === 'construction' ? Math.max(0, 26 - daysWorked) : 0;
+            let unemploymentLoss = unemploymentDays * statutoryRate;
+
+            // Update Live Card
+            document.getElementById('live-total-underpayment').innerText = totalIllegalUnderpayment.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('live-rate-loss').innerText = "₹" + totalIllegalUnderpayment.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('live-unemployment-loss').innerText = "₹" + unemploymentLoss.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('live-received-amount').innerText = "₹" + totalReceived.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+            // Update Preview Claim Slip
+            const workerName = document.getElementById('workerName').value || (currentLang === 'hi' ? 'रमेश भाई परमार' : 'Ramesh Bhai Parmar');
+            const unionId = document.getElementById('unionId').value || 'MAM-AHM-892';
+            const location = document.getElementById('location').value || (sector === 'construction' ? 'Kalupur Naka' : 'Gandevi Mill');
+            const period = document.getElementById('workPeriod').value || '2026-04';
+
+            document.getElementById('slip-name').innerText = workerName;
+            document.getElementById('slip-id-val').innerText = unionId;
+            document.getElementById('slip-sector-val').innerText = sector === 'construction' ? 'Construction Naka' : 'Sugarcane Harvesting';
+            document.getElementById('slip-loc').innerText = location;
+            document.getElementById('slip-date').innerText = period;
+            
+            document.getElementById('slip-stat-rate').innerText = "₹" + statutoryRate + (sector === 'construction' ? ' / day' : ' / ton');
+            document.getElementById('slip-actual-rate').innerText = "₹" + ratePaid + (sector === 'construction' ? ' / day' : ' / ton');
+            document.getElementById('slip-units-val').innerText = unitsForCalc + (sector === 'construction' ? ' days' : ' tons');
+            document.getElementById('slip-underpayment').innerText = "₹" + totalIllegalUnderpayment.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        }
+
+        // ================= FORM SUBMISSION & LOG STORAGE =================
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const sector = document.querySelector('input[name="sector"]:checked').value;
+            const workerName = document.getElementById('workerName').value;
+            const unionId = document.getElementById('unionId').value;
+            const location = document.getElementById('location').value;
+            const contractor = document.getElementById('contractor').value;
+            const workPeriod = document.getElementById('workPeriod').value;
+            const actualUnits = parseFloat(document.getElementById('actualUnits').value) || 0;
+            const tonnageCut = parseFloat(document.getElementById('tonnageCut').value) || 0;
+            const ratePaid = parseFloat(document.getElementById('ratePaid').value) || 0;
+            const statutoryRate = parseFloat(document.getElementById('statutoryRate').value) || 0;
+
+            const unitsForCalc = sector === 'construction' ? actualUnits : tonnageCut;
+            const rateDiff = statutoryRate - ratePaid;
+            const totalUnderpayment = rateDiff > 0 ? (unitsForCalc * rateDiff) : 0;
+
+            const newLog = {
+                id: Date.now(),
+                workerName,
+                unionId: unionId || 'N/A',
+                sector,
+                location,
+                contractor: contractor || 'N/A',
+                workPeriod,
+                actualUnits,
+                tonnageCut,
+                ratePaid,
+                statutoryRate,
+                underpayment: totalUnderpayment,
+                dateAdded: new Date().toISOString().slice(0, 10)
+            };
+
+            logs.unshift(newLog);
+            saveLogsToStorage();
+            renderLogsTable();
+            updateDashboardMetrics();
+
+            // Smooth scroll to claim slip preview for confirmation
+            document.getElementById('claim-slip-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveLogsToStorage() {
+            localStorage.setItem('apna_hisab_logs', JSON.stringify(logs));
+        }
+
+        // ================= LOG TABLE RENDER =================
+        function renderLogsTable() {
+            const tbody = document.getElementById('logs-table-body');
+            tbody.innerHTML = '';
+
+            if (logs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-6 text-slate-400">
+                            ${currentLang === 'hi' ? 'कोई रिकॉर्ड नहीं मिला। ऊपर दिए गए फॉर्म से एंट्री जोड़ें।' : 'No audit records found. Add an entry using the form above.'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            logs.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition border-b border-slate-100";
+
+                const isConst = item.sector === 'construction';
+                const unitsDisplay = isConst ? `${item.actualUnits} days` : `${item.tonnageCut} tons (${item.actualUnits} days)`;
+                const unitLabel = isConst ? '/day' : '/ton';
+
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-900">
+                        ${item.workerName}
+                        <div class="text-[10px] text-slate-400 font-normal">ID: ${item.unionId}</div>
+                    </td>
+                    <td class="p-3">
+                        <span class="inline-block font-semibold capitalize text-slate-700">${item.sector}</span>
+                        <div class="text-[10px] text-slate-400">${item.location}</div>
+                    </td>
+                    <td class="p-3 font-medium text-slate-600">${item.workPeriod}</td>
+                    <td class="p-3 font-medium">${unitsDisplay}</td>
+                    <td class="p-3 text-red-600 font-bold">₹${item.ratePaid}${unitLabel}</td>
+                    <td class="p-3 text-slate-700 font-semibold">₹${item.statutoryRate}${unitLabel}</td>
+                    <td class="p-3 text-right font-extrabold text-amber-700 bg-amber-50/50">
+                        ₹${item.underpayment.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    </td>
+                    <td class="p-3 text-center">
+                        <button onclick="deleteLog(${item.id})" class="text-slate-400 hover:text-red-600 p-1 transition" title="Delete record">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            lucide.createIcons();
+        }
+
+        function deleteLog(id) {
+            logs = logs.filter(item => item.id !== id);
+            saveLogsToStorage();
+            renderLogsTable();
+            updateDashboardMetrics();
+        }
+
+        function clearAllLogs() {
+            if (confirm(currentLang === 'hi' ? "क्या आप सभी दर्ज रिकॉर्ड हटाना चाहते हैं?" : "Are you sure you want to clear all logged records?")) {
+                logs = [];
+                saveLogsToStorage();
+                renderLogsTable();
+                updateDashboardMetrics();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('wage-form').reset();
+            updateSectorMode();
+        }
+
+        function scrollToList() {
+            document.getElementById('records-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ================= CSV EXPORT FUNCTION =================
+        function exportToCSV() {
+            if (logs.length === 0) {
+                alert(currentLang === 'hi' ? "निर्यात के लिए कोई डेटा उपलब्ध नहीं है।" : "No data available to export.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Worker Name,Union ID,Sector,Location,Contractor,Period,Work Units,Rate Paid,Statutory Rate,Total Underpayment Deficit (INR),Date Logged\n";
+
+            logs.forEach(row => {
+                const units = row.sector === 'construction' ? row.actualUnits : row.tonnageCut;
+                csvContent += `"${row.workerName}","${row.unionId}","${row.sector}","${row.location}","${row.contractor}","${row.workPeriod}",${units},${row.ratePaid},${row.statutoryRate},${row.underpayment},"${row.dateAdded}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Apna_Hisab_Wage_Claims_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ================= DASHBOARD AGGREGATE CALCULATIONS =================
+        function updateDashboardMetrics() {
+            const totalWorkers = logs.length;
+            const totalDeficit = logs.reduce((acc, curr) => acc + curr.underpayment, 0);
+
+            document.getElementById('dash-val-workers').innerText = totalWorkers;
+            document.getElementById('dash-val-deficit').innerText = "₹" + totalDeficit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        }
+
+        // ================= TAB NAVIGATION =================
+        function switchTab(tabName) {
+            const calcTab = document.getElementById('tab-calculator');
+            const dashTab = document.getElementById('tab-dashboard');
+            const btnCalc = document.getElementById('tab-btn-calculator');
+            const btnDash = document.getElementById('tab-btn-dashboard');
+
+            if (tabName === 'calculator') {
+                calcTab.classList.remove('hidden');
+                dashTab.classList.add('hidden');
+                btnCalc.className = "px-3 py-1.5 rounded-lg bg-brand-600 text-white shadow font-semibold";
+                btnDash.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-semibold";
+            } else {
+                dashTab.classList.remove('hidden');
+                calcTab.classList.add('hidden');
+                btnDash.className = "px-3 py-1.5 rounded-lg bg-brand-600 text-white shadow font-semibold";
+                btnCalc.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-semibold";
+                updateDashboardMetrics();
+            }
+        }
+    </script>
+</body>
+</html>
